@@ -11,8 +11,5 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "staticBuild": {
-    "distDir": "dist"
-  }
+  ]
 }

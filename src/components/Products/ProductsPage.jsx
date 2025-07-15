@@ -1,4 +1,4 @@
-import { useProducts } from '../hooks/useProducts';
+import { useProducts } from '../../hooks/useProducts';
 
 function ProductPage() {
   const { data, isLoading, isError, error } = useProducts();

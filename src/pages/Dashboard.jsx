@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { useProducts } from '../hooks/useProducts';
 import { useNavigate } from 'react-router-dom';
+import { authService } from '../services/AuthService';
 
 function Dashboard() {
 
@@ -32,10 +33,25 @@ function Dashboard() {
     const [searchQuery, setSearchQuery] = useState('');
     const [filterStatus, setFilterStatus] = useState('all');
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(authService.isAuthenticated());
+    const [authMode, setAuthMode] = useState('login');
+    const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    fullName: ''
+});
+const [authError, setAuthError] = useState('');
 
     const products = data?.data || [];
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+  if (!authService.isAuthenticated()) {
+    navigate('/login');
+  }
+}, []);
+
 
     const stats = {
         totalProducts: products.length,
@@ -319,6 +335,18 @@ function Dashboard() {
                             <Menu className="w-5 h-5" />
                         </button>
                         <span className="text-sm text-gray-600">Welcome back, <span className="font-medium">Admin</span></span>
+                        {authService.isAuthenticated() && (
+  <button
+    onClick={() => {
+      authService.logout();
+      navigate("/login");
+    }}
+    className="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+  >
+    Logout
+  </button>
+)}
+
                     </div>
                 </header>
 
